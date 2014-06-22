@@ -13,20 +13,22 @@ activities <- read.table(
   colClasses = c("numeric", "character"))
 
 readData <- function(className) {
+  path <- "./original_data/UCI HAR Dataset/"
+  
   data <- read.table(
-    paste("./original_data//UCI HAR Dataset/", className, "/X_", className, ".txt", sep=""),
+    paste(path, className, "/X_", className, ".txt", sep=""),
     col.names = column_names)
   
   data_needed <- data[, mean_and_std_column_indeces]
   
   data_activities <- read.table(
-    paste("./original_data//UCI HAR Dataset/", className, "/y_", className, ".txt", sep=""),
+    paste(path, className, "/y_", className, ".txt", sep=""),
     col.names = c("activity_id"))
   
   activity <- merge(data_activities, activities, by="activity_id")$activity
   
   data_subject <- read.table(
-    paste("./original_data/UCI HAR Dataset//", className, "/subject_", className, ".txt", sep=""),
+    paste(path, className, "/subject_", className, ".txt", sep=""),
     col.names = c("subject_id"))
   
   data_needed <- cbind(data_subject, activity, data_needed)
